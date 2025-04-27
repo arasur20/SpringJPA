@@ -36,4 +36,8 @@ public class StudentService {
     public void deleteAll() {
         studentRepository.deleteAll();
     }
+
+    public List<Student> getStudentByDept(String department) {
+        return studentRepository.findByDepartment(department);
+    }
 }

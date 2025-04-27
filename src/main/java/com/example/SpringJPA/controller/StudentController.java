@@ -47,6 +47,9 @@ public class StudentController {
         return "deleted Entire Data";
     }
 
-
+    @GetMapping("students/department/{dept}")
+    public List<Student> getStudentByDept(@PathVariable("dept") String department){
+        return studentService.getStudentByDept(department);
+    }
 
 }
