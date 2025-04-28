@@ -22,7 +22,7 @@ public class StudentService {
     }
 
     public Student getStudentById(int rno) {
-        return studentRepository.findById(rno).orElse(new Student());
+        return studentRepository.findById(rno).orElse(null);
     }
 
     public void updateStudent(Student student) {
@@ -39,5 +39,9 @@ public class StudentService {
 
     public List<Student> getStudentByDept(String department) {
         return studentRepository.findByDepartment(department);
+    }
+
+    public List<Student> getStudentByGendeAndDepartment(String gender, String department) {
+        return studentRepository.findByGenderAndDepartment(gender, department);
     }
 }

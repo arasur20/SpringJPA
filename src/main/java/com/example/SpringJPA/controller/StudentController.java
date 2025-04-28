@@ -3,6 +3,10 @@ package com.example.SpringJPA.controller;
 import com.example.SpringJPA.model.Student;
 import com.example.SpringJPA.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,14 +23,18 @@ public class StudentController {
     }
 
     @GetMapping("students/{rno}")
-    public Student getStudentbyId(@PathVariable("rno") int rno){
-        return studentService.getStudentById(rno);
+    public ResponseEntity<Student> getStudentbyId(@PathVariable("rno") int rno){
+        Student student = studentService.getStudentById(rno);
+        if(student==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
     @PostMapping("students")
-    public String addStudent(@RequestBody Student student){
+    public ResponseEntity<String> addStudent(@RequestBody Student student){
         studentService.addStudent(student);
-        return "Successfully added";
+        return new ResponseEntity<>("Added", HttpStatus.CREATED);
     }
 
     @PutMapping("students")
@@ -50,6 +58,11 @@ public class StudentController {
     @GetMapping("students/department/{dept}")
     public List<Student> getStudentByDept(@PathVariable("dept") String department){
         return studentService.getStudentByDept(department);
+    }
+
+    @PostMapping("students/filter")
+    public List<Student> getStudentByGenderAndDepartment(@Param("gender") String gender, @Param("department") String department){
+        return studentService.getStudentByGendeAndDepartment(gender, department);
     }
 
 }
